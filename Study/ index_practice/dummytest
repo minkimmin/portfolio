@@ -1,7 +1,29 @@
+/*park찾기 실험을 하기위해서 park은 10건만 넣어두기*/
+BEGIN 
+	
+FOR i IN 1..10 LOOP
+
+INSERT INTO MYBOARD99(
+	NO, writer, passwd, subject, content, readcount, register)	
+	
+	VALUES(
+		myboard99_SEQ.NEXTVAL,
+			'park',
+			'1234',
+			'더미테스트',
+			'내용도 더미' || i,
+			TRUNC(DBMS_RANDOM.VALUE(0,100)),
+			SYSDATE
+	);
+	
+END LOOP;
+	COMMIT;
+END;
+
 /* CONNECT BY LEVEL 숫자 생성 사용 안 하고 LOOP사용 중, 초보자(나) 시점에서 이해하기 좋음*/
 
 BEGIN
-	FOR i IN 1..1000  LOOP    	/*게시글 1000개 생성하기*/
+	FOR i IN 1..1000  LOOP    	/*게시글 100000개 생성하기*/
 		INSERT INTO MYBOARD99 (
 			NO,
 			writer,
