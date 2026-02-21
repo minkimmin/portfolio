@@ -36,7 +36,7 @@ BEGIN
 		VALUES (
 			myboard99_SEQ.NEXTVAL,
 			
-			/*작성자 20명 비율에 따라 배치하기*/
+			/*작성자 20명 비율에 따라 배치하기(근데 park도 있고 직접 글 작성하기로 추가한 작성자들도 좀 있음)*/
 		CASE 	
 			WHEN DBMS_RANDOM.VALUE < 0.30 THEN 'kim'     /*30퍼센트*/
 			WHEN DBMS_RANDOM.VALUE < 0.45 THEN 'lee'	/*나머지 15퍼센트 (누적 순으로 비율 따지는 것)*/
