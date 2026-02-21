@@ -23,7 +23,7 @@ END;
 /* CONNECT BY LEVEL 숫자 생성 사용 안 하고 LOOP사용 중, 초보자(나) 시점에서 이해하기 좋음*/
 
 BEGIN
-	FOR i IN 1..1000  LOOP    	/*게시글 100000개 생성하기*/
+	FOR i IN 1..100000  LOOP    	/*게시글 100000개 생성하기*/
 		INSERT INTO MYBOARD99 (
 			NO,
 			writer,
@@ -80,7 +80,7 @@ BEGIN
 			/*날짜*/					
 			CASE 
 				WHEN DBMS_RANDOM.VALUE < 0.5 THEN SYSDATE - TRUNC(DBMS_RANDOM.VALUE(0,9)) /*최근 9일 날짜 50퍼 몰림 실험*/
-				WHEN DBMS_RANDOM.VALUE < 0.8 THEN SYSDATE - TRUNC(DBMS_RANDOM.VALUE(9,30)) /*30퍼*/
+				WHEN DBMS_RANDOM.VALUE < 0.8 THEN SYSDATE - TRUNC(DBMS_RANDOM.VALUE(9,30)) /*30퍼, 9일부터 최근 30일*/
 				ELSE SYSDATE - TRUNC(DBMS_RANDOM.VALUE(30,100)) /*나머지 30퍼*/
 			END	
 
