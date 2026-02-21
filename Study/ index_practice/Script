@@ -1,0 +1,76 @@
+/*kim, park찾기! 인덱스 생성하기 전 전체 데이터 훑기 TABLE FULL SCAN 방식, TABLE ACCESS FULL*/
+
+/*작성자 통계*/
+SELECT writer, COUNT(*)
+FROM myboard99
+GROUP BY writer;
+
+
+SELECT * FROM myboard99
+WHERE writer = 'kim';
+
+SELECT COUNT(*) 
+FROM myboard99
+WHERE writer = 'park';   /*full scan으로 0.002초 걸림*/
+
+SELECT COUNT(*) 
+FROM myboard99
+WHERE writer = 'kim';
+
+/*단일 인덱스 생성하기*/
+CREATE INDEX idx_myboard99_writer
+ON myboard99(writer);
+
+/*인덱스 생성 후 실행해보기*/
+EXPLAIN PLAN FOR
+SELECT * FROM myboard99
+WHERE writer = 'kim'
+
+EXPLAIN PLAN FOR
+SELECT * FROM myboard99
+WHERE writer = 'park'   /*총 10건 있음, 데이터를 십만건 이상 추가했더니 park은 인덱스로 실행되었음*/
+
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY)
+
+/*통계 갱신하기*/
+BEGIN
+  DBMS_STATS.GATHER_TABLE_STATS('SPRING', 'MYBOARD99');
+END;
+
+/*조회수 실험하기*/
+SELECT * 
+FROM MYBOARD99
+ORDER BY readcount DESC;
+
+/*인덱스 생성하기전에 실행 먼저 해보기*/
+EXPLAIN PLAN FOR
+SELECT * FROM MYBOARD99
+WHERE readcount > 500
+ORDER BY readcount DESC;
+
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+/*인덱스 생성*/
+CREATE INDEX idx_readcount
+ON MYBOARD99(readcount DESC);
+
+/*정확한 실험을 위해서 단일 인덱스 먼저 삭제하기*/
+DROP INDEX idx_readcount;
+DROP INDEX idx_myboard99_writer;
+
+
+/*복합 인덱스 생성하기전,후 비교*/
+EXPLAIN PLAN FOR
+SELECT *
+FROM MYBOARD99
+WHERE writer = 'park'
+AND readcount > 500
+AND register > SYSDATE - 30;
+
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+/*복합 인덱스 생성하기*/
+CREATE INDEX idx_wr_rd_rg
+ON MYBOARD99(writer, readcount, register);
+
+
