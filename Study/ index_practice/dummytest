@@ -20,7 +20,7 @@ END LOOP;
 	COMMIT;
 END;
 
-/* CONNECT BY LEVEL 숫자 생성 사용 안 하고 LOOP사용 중, 초보자(나) 시점에서 이해하기 좋음*/
+/* CONNECT BY LEVEL 숫자 생성 사용 안 하고 LOOP사용 중, 로직 이해하기 더 수월함*/
 
 BEGIN
 	FOR i IN 1..100000  LOOP    	/*게시글 100000개 생성하기*/
