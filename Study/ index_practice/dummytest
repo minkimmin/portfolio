@@ -21,7 +21,7 @@ END LOOP;
 	COMMIT;
 END;
 
-/* CONNECT BY LEVEL 숫자 생성 사용 안 하고 LOOP사용 중, 로직 이해하기 더 수월함*/
+/* CONNECT BY LEVEL 숫자 생성 사용 안 하고 LOOP사용 중, 인덱스 효율을 높이기 위해 작성자 비율 등 조건 넣기 좋고 로직 이해하기 더 수월함*/
 
 BEGIN
 	FOR i IN 1..100000  LOOP    	/*게시글 100,000개 생성하기*/  /* 데이터 추가할 때 추가할 숫자만 변경해주면 된다*/
